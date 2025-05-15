@@ -66,15 +66,24 @@ Tady je __3D tiskárna__ na ktersi tisknu dílky.
 ![Alt text](IMG_20241219_212421.jpg)
 A tady mám nějaké __součástky__ na ten projekt.
 ![Alt text](IMG_20241219_213339.jpg)
+<br>
+
 #### Video📽
 Zde je stavba a programace mého díla.<br>
 [Sledujte video na Google Drive](https://drive.google.com/file/d/1dde__meeCsf8Jv0vqH-MyN_2luJrceo_/view?usp=sharing)
+<br>
+
 #### Popis📝
 Za pomocí arduina a krokového motoru jsem nasimuloval jízdu vysavače. Takže když přiložíme kartu k vysavači robot se odemkne a bude minutu uklízet. Pokud ale narazí, couvne si, zmení směr a pojede dál.
+<br>
+
 ### Cíl projektu🎯
 Projektem jsem si chtěl zkusit sestavit model a nasimulovat princip robotických vysavačů a sekaček
+<br>
+
 ### Můj pohled na projekt👌
-Tenhle projekt jsem si vybral hlavně protože mám 3D tiskárnu a nechci vyhazovat zbytečně plast. Projekt je za mě docela složitý a zatím nemám všechny komponenty, abych ho molh začít stavět, proto jsem se během schánění součástí v tomhle pololetí učil hlavně s těmi programi.
+Tenhle projekt jsem si vybral hlavně protože mám 3D tiskárnu a nechci vyhazovat zbytečně plast. Projekt je za mě docela složitý a zatím nemám všechny komponenty, abych ho molh začít stavět, proto jsem se během schánění součástí v tomhle pololetí učil hlavně s těmi programi.<br>
+
 ## Zdroje
 1) > používal jsem AI
 3) > Především jsem ten projekt vymýšlel sám.
