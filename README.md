@@ -10,7 +10,7 @@ __Dobrý den, Vypracoval: Adam Franc__ <br>
 -1.3[Můj pohled na projekt](#m%C5%AFj-pohled-na-projekt)<br>
 3.[Zdroje](#zdroje)<br>
 <br>
-## Druhé pololetí 20.12.2024
+## Druhé pololetí 16.5.2025
 V druhém pololetí jsem se rozhodl naučit se v programu Arduino IDE a rohodl jsem se sestavi robota simulujícího robotický vysavač až na to že nevysává.
 ### Projekt📁
 Jako projekt jsem si vybral a vymyslel: __Robotický vysavač bez vysávání__<br>
