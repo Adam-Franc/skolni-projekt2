@@ -1,1 +1,1 @@
-# -koln--projekt2
+# Skolni-projekt2
