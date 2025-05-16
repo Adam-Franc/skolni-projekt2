@@ -149,7 +149,7 @@ Zde je schéma __zapojení__.
 Tady jsou fotky ze stavby a zapojení robota.
 <br>
 
-![Alt text](kostra_robota.jpg)
+![Alt text](kostrarobota.jpg)
 
 <br>
 
