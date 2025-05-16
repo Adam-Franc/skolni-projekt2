@@ -18,59 +18,144 @@ Jako projekt jsem si vybral a vymyslel: __Robotický vysavač bez vysávání__<
 __Tady je program na arduino__
 <pre>
 <code id="code-block">
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
+#include <SPI.h>
+#include <MFRC522.h>
+#include <Servo.h>
+#include <Stepper.h>
 
-// Inicializace LCD displeje s I2C adresou 0x27 (může se lišit)
-LiquidCrystal_I2C lcd(0x27, 16, 2);
+#define SS_PIN 53
+#define RST_PIN 5
+MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-// Pin, na který je připojeno teplotní čidlo
-const int tempPin = A0;
+#define LED_PIN 4
+#define BUZZER_PIN 3
+#define SERVO_PIN 6
+#define SHAKE_SENSOR_PIN 7
+
+#define IN1 8
+#define IN2 9
+#define IN3 10
+#define IN4 11
+#define STEPS_PER_REV 2048  // pro 28BYJ-48
+
+Servo myServo;
+Stepper myStepper(STEPS_PER_REV, IN1, IN3, IN2, IN4);
+
+unsigned long unlockTime = 0;
+bool isUnlocked = false;
+bool motorRunning = false;
+const String authorizedUID = "E3 02 A9 FC"; // UID karty
 
 void setup() {
-  // Nastavení LCD displeje
-  lcd.init();
-  lcd.backlight();
-  lcd.print("Teplota:");
+  Serial.begin(9600);
+  SPI.begin();
+  mfrc522.PCD_Init();
+
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(SHAKE_SENSOR_PIN, INPUT);
+
+  myServo.attach(SERVO_PIN);
+  myServo.write(0);
+
+  myStepper.setSpeed(10);
+  digitalWrite(LED_PIN, LOW);
+  digitalWrite(BUZZER_PIN, LOW);
+
+  Serial.println("Přilož RFID kartu...");
 }
 
 void loop() {
-  // Čtení hodnoty z teplotního čidla
-  int tempReading = analogRead(tempPin);
+  // RFID čtečka
+  if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+    String uidStr = "";
+    for (byte i = 0; i < mfrc522.uid.size; i++) {
+      if (mfrc522.uid.uidByte[i] < 0x10) uidStr += "0";
+      uidStr += String(mfrc522.uid.uidByte[i], HEX);
+      if (i < mfrc522.uid.size - 1) uidStr += " ";
+    }
 
-  // Převod hodnoty na teplotu ve stupních Celsia
-  float voltage = tempReading * 5.0 / 1024.0;
-  float temperatureC = voltage * 100;
+    uidStr.toUpperCase();
+    Serial.print("UID karty: ");
+    Serial.println(uidStr);
 
-  // Zobrazení teploty na LCD displeji
-  lcd.setCursor(0, 1);
-  lcd.print(temperatureC);
-  lcd.print(" C");
+    if (uidStr == authorizedUID && !isUnlocked) {
+      unlockSystem();
+    }
 
-  // Krátká pauza před dalším měřením
-  delay(1000);
+    mfrc522.PICC_HaltA();
+  }
+
+  // Zamknout po 20 sekundách
+  if (isUnlocked && millis() - unlockTime > 60000) {
+    lockSystem();
+  }
+
+  // Když je odemčeno, toč motorem
+  if (isUnlocked && motorRunning) {
+    myStepper.step(10); // otáčení vpřed
+
+    if (digitalRead(SHAKE_SENSOR_PIN) == HIGH) {
+      Serial.println("Otřes detekován!");
+
+      // Zastav motor
+      motorRunning = false;
+
+      // Bzučák a LED
+      digitalWrite(BUZZER_PIN, HIGH);
+      digitalWrite(LED_PIN, HIGH);
+      delay(1000);
+      digitalWrite(BUZZER_PIN, LOW);
+
+      // Krokový motor dozadu
+      myStepper.step(-1000);
+      delay(1000);
+
+      // Servo se otočí
+      myServo.write(30);
+      delay(1000);
+      
+      motorRunning = true;
+    }
+  }
+}
+
+void unlockSystem() {
+  isUnlocked = true;
+  unlockTime = millis();
+  motorRunning = true;
+
+  Serial.println("✅ SYSTÉM ODEMKNUT");
+  digitalWrite(LED_PIN, HIGH);
+}
+
+void lockSystem() {
+  isUnlocked = false;
+  motorRunning = false;
+
+  Serial.println("🔒 SYSTÉM ZAMKNUT");
+  digitalWrite(LED_PIN, LOW);
+  myServo.write(0);
 }
 </code>
 <button onclick="copyToClipboard()">Můžete si kód klidně zkopírovat a zkusit.</button>
 </pre>
 #### Fotky📷
-Zde jsem si nakreslil __g__.
+Zde je schéma __zapojení__.
 <br>
 
 <br>
 <br>
-Tady je __výstřižek z Fusionu__ jak si rýsuju součástky na výrobu.
+Tady jsou fotky ze stavby a zapojení robota.
 <br>
-![Alt text](https://github.com/Adam-Franc/skolni-projekt/blob/6c6357e7de17bfd86bdb99ccf89d66983250def9/V%C3%BDst%C5%99i%C5%BEek%2040.PNG)
-Tady je __3D tiskárna__ na ktersi tisknu dílky.
 ![Alt text](IMG_20241219_212421.jpg)
-A tady mám nějaké __součástky__ na ten projekt.
 ![Alt text](IMG_20241219_213339.jpg)
 <br>
 
 #### Video📽
 Zde je stavba a programace mého díla.<br>
-[Sledujte video na Google Drive](https://drive.google.com/file/d/1dde__meeCsf8Jv0vqH-MyN_2luJrceo_/view?usp=sharing)
+Video dodám v sobotu protože jsem teď neměl možnost ho sestříhat.<br> 
+[Sledujte video na Google Drive](https://drive.google.com/file/d/)
 <br>
 
 #### Popis📝
@@ -82,8 +167,8 @@ Projektem jsem si chtěl zkusit sestavit model a nasimulovat princip robotickýc
 <br>
 
 ### Můj pohled na projekt👌
-Tenhle projekt jsem si vybral hlavně protože mám 3D tiskárnu a nechci vyhazovat zbytečně plast. Projekt je za mě docela složitý a zatím nemám všechny komponenty, abych ho molh začít stavět, proto jsem se během schánění součástí v tomhle pololetí učil hlavně s těmi programi.<br>
+Projekt jsem dělal hodně dlouho, protože jsem vždycky něco zkazil a trvalo mi dlouho než jsem na to přišel. Vyzkoušel jsem si jak zapojování tak i programování a dokonce jsem i pájel a přemněřoval výstupi a tiskl si ozubené kolečka na 3D tiskárně abych to zpřevodoval.<br>
 
 ## Zdroje
 1) > používal jsem AI
-3) > Především jsem ten projekt vymýšlel sám.
+2) > Především jsem ten projekt vymýšlel sám.
