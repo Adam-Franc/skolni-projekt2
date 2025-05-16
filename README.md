@@ -148,7 +148,7 @@ Zde je schéma __zapojení__.
 <br>
 Tady jsou fotky ze stavby a zapojení robota.
 <br>
-![Alt text](IMG_20241219_212421.jpg)
+![Kostra robota](https://github.com/Adam-Franc/skolni-projekt2/blob/2b5b484da7291b8dafe3c7d151df700f8a806117/kostra%20robota.jpg)
 ![Alt text](IMG_20241219_213339.jpg)
 <br>
 
