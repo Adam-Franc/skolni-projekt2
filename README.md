@@ -143,8 +143,7 @@ void lockSystem() {
 #### Fotky📷
 Zde je schéma __zapojení__.
 <br>
-
-<br>
+![Alt text](planek.png )
 <br>
 Tady jsou fotky ze stavby a zapojení robota.
 <br>
@@ -153,7 +152,9 @@ Tady jsou fotky ze stavby a zapojení robota.
 
 <br>
 
-![Alt text](IMG_20241219_213339.jpg)
+![Alt text](zapojenyrobot.jpg)
+
+![Alt text](zapojeneauto.jpg)
 <br>
 
 #### Video📽
