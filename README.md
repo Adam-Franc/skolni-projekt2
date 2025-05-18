@@ -159,7 +159,8 @@ Tady jsou fotky ze stavby a zapojení robota.
 
 #### Video📽
 Zde je stavba a programace mého díla.<br> 
-[Sledujte video na Google Drive]([https://drive.google.com/file/d/](https://drive.google.com/file/d/1ypbqBTWg2mv9Rm_5_K_RhccYSWaEKLSi/view?usp=sharing))
+
+![Sledujte video na Google Drive](https://drive.google.com/file/d/1ypbqBTWg2mv9Rm_5_K_RhccYSWaEKLSi/view?usp=sharing)
 <br>
 
 #### Popis📝
